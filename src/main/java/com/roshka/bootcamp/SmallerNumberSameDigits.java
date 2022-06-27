@@ -1,56 +1,60 @@
 package com.roshka.bootcamp;
 
-import java.util.Scanner;
-
 public class SmallerNumberSameDigits {
-
-    public static void main(String[] args) {
-        Long N=nextSmaller(90707);
-        System.out.println("N: "+N);
-    }
-    public static long nextSmaller(long n)
-    {
-        StringBuilder numero_auxiliar= new StringBuilder(String.valueOf(n));
-        int limit=numero_auxiliar.length();
-        boolean b=false;
-        Character digito_auxiliar;
-        boolean bandera=true;
-        while(bandera==true){
-            bandera=false;
-            for(int i=limit-1;i>0;i--){
-                if(i!=1){
-                    for(int j=i-1;j>=0;j--){
-                        if(Integer.valueOf(numero_auxiliar.charAt(i))<Integer.valueOf(numero_auxiliar.charAt(j))){
-                            digito_auxiliar=numero_auxiliar.charAt(j);
-                            numero_auxiliar.setCharAt (j, numero_auxiliar.charAt(i));
-                            numero_auxiliar.setCharAt (i, digito_auxiliar);
-                            b=true;
-                            //bandera=true;
+//    public static void main(String[] args) {
+//        System.out.println(nextSmaller(21));
+//        System.out.println(nextSmaller(907));
+//        System.out.println(nextSmaller(531));
+//        System.out.println(nextSmaller(1027));
+//        System.out.println(nextSmaller(441));
+//        System.out.println(nextSmaller(123456798));
+//    }
+    public static long nextSmaller(long n) {
+        String numero_principal=String.valueOf(n);
+        StringBuilder principal_copia;
+        String numero_auxiliar="";
+        int longitud_principal=numero_principal.length();
+        int longitud_secundaria;
+        boolean controlador=true;
+        boolean auxiliar;
+        while(controlador){
+            if(n<=0){
+                controlador=false;
+                n=-1;
+            }else{
+                principal_copia=new StringBuilder(numero_principal);
+                n--;
+                numero_auxiliar=String.valueOf(n);
+                longitud_secundaria=numero_auxiliar.length();
+                if(longitud_secundaria==longitud_principal){
+                    for(int i=0;i<numero_auxiliar.length();i++){
+                        auxiliar=false;
+                        for(int j=0;j<numero_principal.length();j++){
+                            if(numero_auxiliar.charAt(i)==principal_copia.charAt(j)){
+                                principal_copia.setCharAt(j,'*');
+                                auxiliar=true;
+                                break;
+                            }
+                        }
+                        if(!auxiliar){
+                            controlador=false;
+                        }
+                        if(controlador==false){
                             break;
                         }
                     }
-                    if(b){
-                        //bandera=true;
-                        break;
+                    if(controlador==true){
+                        n=Long.valueOf(numero_auxiliar);
+                        controlador=false;
+                    }else{
+                        controlador=true;
                     }
                 }else{
-                    if(Integer.valueOf(String.valueOf(numero_auxiliar.charAt(i)))!=0){
-                        if(Integer.valueOf(numero_auxiliar.charAt(i))<Integer.valueOf(numero_auxiliar.charAt(i-1))){
-                            digito_auxiliar=numero_auxiliar.charAt(i-1);
-                            numero_auxiliar.setCharAt (i-1, numero_auxiliar.charAt(i));
-                            numero_auxiliar.setCharAt (i, digito_auxiliar);
-                            b=true;
-                            //bandera=true;
-                            break;
-                        }
-                    }
+                    controlador=false;
+                    n=-1;
                 }
             }
         }
-
-        System.out.println(numero_auxiliar);
-        if(b==false){
-            return -1;
-        }else{ return Long.valueOf(numero_auxiliar.toString());}
+        return n;
     }
 }
